@@ -13,7 +13,7 @@ import os.path
 image_array = []
 
 
-def image2Array(image):
+def image2Matrix(image):
    
     #Get name of image from path
     #name = os.path.basename(image)
@@ -45,10 +45,10 @@ def main():
     for image_path in glob.glob("/home/pi/machine_learning_algorithms/Sample011/*.png"):
         
         #Convert image to matrix, and add to image_array
-        image2Array(image_path)
+        image2Matrix(image_path)
     
     #########################################################################################
-    # Make indivdual functions for each classifier and use image2Array and reconstructImage #
+    # Make indivdual functions for each classifier and use image2Matrix and reconstructImage #
     # This is simply a proof of concept for a possible modular structure                    #
     #########################################################################################
 
