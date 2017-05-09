@@ -6,7 +6,7 @@ from PIL import Image
 from scipy import misc
 import glob
 
-
+import matplotlib.pyplot as plt
 
 #Create array to store individual image matrixes in
 test_set = []
@@ -35,25 +35,26 @@ def image2Matrix(image, image_array):
 
     #Open image as greyscale
     img = PIL.Image.open(image).convert("L")
-    print(img.size)
+    #print(img.size)
 
     #Convert image to numpy array.
     arr = numpy.array(img)
-    print(arr.shape)
+    #print(arr.shape)
 
     #Append "numpy image" to image_array
     image_array.append(arr)
-    print("images in array: %s" % len(image_array))
+    #print("images in array: %s" % len(image_array))
 
-def nearest_neighbor(test_image_array, training_image_array, labels):
+def nearest_neighbor(test_image_array, training_image_array, labels, test_set_names):
 
     
     calculated_labels= []
 
     for i in range(0, len(test_image_array)):
-        print("Processing test image: %s" % i)
+        print("Processing test image: %s" % test_set_names[i])
         current_test_image = test_image_array[i]
-        current = 100000000
+	#print(sum(sum(current_test_image)))
+        current = 10000000
         for j in range(0, len(training_image_array)):
             diff = current_test_image - training_image_array[j]
             #print diff
@@ -62,34 +63,34 @@ def nearest_neighbor(test_image_array, training_image_array, labels):
             if(diff < current):
                 current = diff
                 index = j
-	    	
 	    
-            
-            #print(diff)
-        #print(min(difference_array))
-        
-	
-        #print(index)
 
         calculated_labels.append(labels[index])
-    print(calculated_labels)
-
+    #print(calculated_labels)
+        #img = training_image_array[index]
+        plt.imshow(training_image_array[index])
+        plt.show()
 
 
 
 def main():
-    for image_path in glob.glob("/home/pi/machine_learning_algorithms/Test/*.png"):
+
+    test_names = []
+
+    for image_path in glob.glob("/home/abagde/machine_learning_algorithms/Test/*.png"):
 
         #Convert image to matrix, and add to image_array
         image2Matrix(image_path, test_set)
+	test_names.append(image_path)
+        
 
-    for image_path in glob.glob("/home/pi/machine_learning_algorithms/TrainingSet/*.png"):
+    for image_path in glob.glob("/home/abagde/machine_learning_algorithms/TrainingSet/*.png"):
 
         #Convert image to matrix, and add to image_array
         image2Matrix(image_path, training_set)
 
     
-    nearest_neighbor(test_set, training_set, label_train)
+    nearest_neighbor(test_set, training_set, label_train, test_names)
 
     #output = label_test(calculated_labels.flatten(1))
     #print(output)
